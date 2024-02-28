@@ -13,7 +13,7 @@ function Navbar() {
           <Link to="/tasks">Tasks</Link>
         </li>
         <li>
-          <Link to="/tasks/new">New Task</Link>
+          <Link to="/new">New Task</Link>
         </li>
       </ul>
     </div>
