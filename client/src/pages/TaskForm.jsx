@@ -1,7 +1,13 @@
 import { Form, Formik } from "formik";
 import { createTaskRequest } from "../api/tasks.api";
+import { useTasks } from "../context/TaskContext";
 
 function TaskForm() {
+
+  const {text} = useTasks();
+
+  console.log(text);
+
   return (
     <div>
       <Formik initialValues={
