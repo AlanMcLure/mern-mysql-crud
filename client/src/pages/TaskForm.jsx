@@ -1,12 +1,20 @@
 import { Form, Formik } from "formik";
 import { useTasks } from "../context/TaskContext";
+import { useParams } from "react-router-dom";
 
 function TaskForm() {
 
   const {createTask} = useTasks();
+  const params = useParams();
+  console.log(params);
 
   return (
     <div>
+
+      <h1>
+        {params.id ? "Editar tarea" : "Nueva tarea"}
+      </h1>
+
       <Formik initialValues={
         {
           title: "",
