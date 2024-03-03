@@ -1,12 +1,31 @@
 import { Form, Formik } from "formik";
 import { useTasks } from "../context/TaskContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function TaskForm() {
 
-  const {createTask} = useTasks();
+  const {createTask, getTask, updateTask} = useTasks();
+  const [task, setTask] = useState({
+    title: "",
+    description: ""
+  });
   const params = useParams();
-  console.log(params);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const loadTask = async () => {
+      if (params.id) {
+        console.log("Editando tarea con id", params.id);
+        const task = await getTask(params.id);
+        setTask({
+          title: task.title,
+          description: task.description
+        });
+      }
+    }
+    loadTask();  
+  }, [])
 
   return (
     <div>
@@ -15,16 +34,23 @@ function TaskForm() {
         {params.id ? "Editar tarea" : "Nueva tarea"}
       </h1>
 
-      <Formik initialValues={
-        {
-          title: "",
-          description: ""
-        }
-      } onSubmit={
+      <Formik initialValues={task} enableReinitialize={true} onSubmit={
         async (values, actions) => {
           console.log(values);
-          createTask(values);
-          actions.resetform();
+          
+          if (params.id) {
+            console.log("Editando tarea con id", params.id);
+            updateTask(params.id, values);
+            navigate("/");
+          } else {
+            console.log("Creando nueva tarea");
+            createTask(values);
+          }
+          setTask({
+            title: "",
+            description: ""
+          });
+          actions.resetForm();
         }
       
       }>
