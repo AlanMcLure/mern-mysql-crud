@@ -29,11 +29,6 @@ function TaskForm() {
 
   return (
     <div>
-
-      <h1>
-        {params.id ? "Editar tarea" : "Nueva tarea"}
-      </h1>
-
       <Formik initialValues={task} enableReinitialize={true} onSubmit={
         async (values, actions) => {
           console.log(values);
@@ -55,17 +50,39 @@ function TaskForm() {
       
       }>
         {({handleChange, handleSubmit, values, isSubmitting}) => (
-          <Form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="title">Title</label>
-            <input id="title" name="title" type="text" placeholder="Título" onChange={handleChange} value={values.title}/>
-          </div>
-          <div>
-            <label htmlFor="description">Description</label>
-            <textarea id="description" name="description" rows="3" placeholder="Escribe algo..." onChange={handleChange} value={values.description}/>
-          </div>
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Guardando..." : "Guardar tarea"}
+          <Form
+          onSubmit={handleSubmit}
+          className="bg-slate-300 max-w-sm rounded-md p-4 mx-auto mt-10"
+        >
+          <h1 className="text-xl font-bold uppercase text-center">
+            {params.id ? "Edit Task" : "New Task"}
+          </h1>
+          <label className="block">title</label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Write a title"
+            className="px-2 py-1 rounded-sm w-full"
+            onChange={handleChange}
+            value={values.title}
+          />
+
+          <label className="block">description</label>
+          <textarea
+            name="description"
+            rows="3"
+            placeholder="Write a description"
+            onChange={handleChange}
+            className="px-2 py-1 rounded-sm w-full"
+            value={values.description}
+          ></textarea>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="block bg-indigo-500 px-2 py-1 text-white w-full rounded-md"
+          >
+            {isSubmitting ? "Saving..." : "Save"}
           </button>
         </Form>
         )}
