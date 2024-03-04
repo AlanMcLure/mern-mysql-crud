@@ -4,8 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 function TaskCard({ task }) {
   
-  const {deleteTask} = useTasks();
+  const {deleteTask, toggleTaskDone} = useTasks();
   const navigate = useNavigate();
+
+  const handleDone = () => {
+    toggleTaskDone(task.id);
+  }
   
   return (
     <div>
@@ -14,6 +18,7 @@ function TaskCard({ task }) {
       <span>{task.done == 1 ? "Sí" : "No"}</span>
       <button onClick={() => navigate(`/edit/${task.id}`)}>Editar</button>
       <button onClick={() => deleteTask(task.id)}>Eliminar</button>
+      <button onClick={() => handleDone()}>Toggle task</button>
     </div>
   )
 }

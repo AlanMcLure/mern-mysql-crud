@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useState } from "react";
-import { createTaskRequest, deleteTaskRequest, getTasksRequest, getTaskRequest, updateTaskRequest } from "../api/tasks.api";
+import { createTaskRequest, deleteTaskRequest, getTasksRequest, getTaskRequest, updateTaskRequest, toggleTaskDoneRequest } from "../api/tasks.api";
 
 export const TaskContext = createContext();
 
@@ -64,8 +64,22 @@ export const TaskContextProvider = ({ children }) => {
   
   }
 
+  const toggleTaskDone = async (id) => {
+    try {
+      const taskFound = tasks.find((task) => task.id === id);
+      await toggleTaskDoneRequest(id, taskFound.done === 0 ? true : false);
+      setTasks(
+        tasks.map((task) =>
+          task.id === id ? { ...task, done: !task.done } : task
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <TaskContext.Provider value={{ tasks, loadTasks, deleteTask, createTask, getTask, updateTask }}>
+    <TaskContext.Provider value={{ tasks, loadTasks, deleteTask, createTask, getTask, updateTask, toggleTaskDone }}>
       {children}
     </TaskContext.Provider>
   );
